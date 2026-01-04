@@ -1,3 +1,5 @@
+
+# RAG Demo with agentic AI
 ```
 mini-agentic-rag/
 ├── data/               # Drop your domain PDFs/text here
