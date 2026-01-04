@@ -1,0 +1,82 @@
+- 4712201 – Fixed issue in the Finance Module: Journal entry approval not reflecting in ledger reports 
+- 4712315 – Implemented user-role matrix for the Inventory Management Module 
+- 4712440 – Resolved calculation errors in the Payroll Module's tax deduction logic 
+- 4712568 – Developed batch upload feature for bulk purchase orders in the Procurement Module 
+- 4712632 – Integrated third-party VAT service for compliance in Sales Invoicing 
+- 4712744 – Fixed rounding logic in multi-currency transaction summaries 
+- 4712865 – Enabled audit tracking for Chart of Accounts creation and modification 
+- 4712971 – Enhanced approval workflow in Leave Management to support department-level overrides 
+- 4713083 – Automated vendor onboarding with document verification and email triggers 
+- 4713190 – Migrated static reports to dynamic drill-down reports in Business Intelligence dashboard 
+ 
+Meetings and Planning
+ 
+- Participated in sprint ceremonies, backlog grooming, and ERP roadmap planning 
+- Conducted detailed UAT planning with Finance and HR teams for Payroll Module rollout 
+- Facilitated requirements workshop with Procurement users to design a supplier rating system 
+- Collaborated with DevOps to establish staging environment refresh automation 
+- Organized integration planning with external tax and payment gateway APIs 
+- Prepared quarterly rollout plan for phased module deployment across branches 
+ 
+Impacts on Organization
+ 
+- Improved audit readiness by implementing trace logs across Finance & Procurement modules 
+- Reduced manual effort by 40% by developing automated asset depreciation schedule generation 
+- Helped the HR team reduce errors by implementing validation rules in leave accrual policies 
+- Decreased invoice rejection rates through input form improvements and real-time validation 
+- Played a key role in designing centralized employee data management between HR, Payroll, and Attendance 
+- Developed process documentation and SOPs for critical ERP workflows 
+ 
+Impacts on Client & Projects
+ 
+- Delivered a working Finance & Inventory integration with real-time stock and ledger updates 
+- Supported post-deployment issue tracking and resolution for multi-location rollout 
+- Reduced procurement processing time by automating PO-to-GRN-to-Invoice workflow 
+- Enabled clients to monitor monthly spending through role-based dashboards 
+- Collaborated with client-side IT teams to test API integrations for warehouse sync 
+- Assisted in training finance users for the year-end closing process in the ERP system 
+ 
+ 
+Support
+ 
+- Handled over 50 ERP-related support tickets with an average resolution time under 4 hours 
+- Created internal support documentation to address frequently raised issues 
+- Conducted weekly sync-ups with the customer service team to improve issue triaging 
+- Provided post-go-live hypercare support for the HR and Finance modules 
+- Implemented ticket tagging and categorization to improve analytics and response times 
+ 
+Automation Summary
+ 
+- Automated the daily backup process and error alerting using scheduled PowerShell scripts 
+- Developed a bot to generate daily summary reports and email them to department heads 
+- Introduced automatic retry mechanisms for failed invoice syncs 
+- Created Excel import templates with validation macros for smoother data entry 
+- Automated test case execution for regression testing using Selenium with ERP-specific workflows 
+ 
+DevOps Summary
+ 
+- Set up CI/CD pipelines using Azure DevOps for automated deployment and rollback 
+- Implemented containerized staging environments for isolated feature testing 
+- Monitored application performance and uptime via integrated logging with Grafana & Prometheus 
+- Established version control standards and branching strategy for ERP module teams 
+- Performed routine load testing on core APIs and optimized high-usage endpoints
+ 
+ 
+Miscellaneous
+ 
+- Conducted a security review of user permissions across modules 
+- Organized team review session on code quality and performance profiling 
+- Mentored junior developers on async processing and background job handling 
+- Wrote onboarding guide for support team to handle common ERP tickets 
+- Proposed auto-alert system for overdue approvals and task reminders (under development) 
+ 
+Metrics
+ 
+Key | Objective | Key Results
+----------------------|-----------|------------------------
+Agile Practices | TRUE | TRUE
+Code Review | 10 | 9
+Resource Utilization | 100% | 99%
+Story Deliveries | 100% | 106%
+Workflow Automations | 3 | 4
+Support Ticket Reduction | 15% | 18%
