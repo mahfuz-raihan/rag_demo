@@ -1,0 +1,20 @@
+# Core LLM Orchestration
+langchain==0.3.0
+langchain-openai==0.2.0
+langgraph==0.2.20
+
+# Vector Database & Embeddings
+faiss-cpu==1.8.0
+tiktoken==0.7.0
+
+# Document Processing
+pypdf==4.3.1
+unstructured==0.15.0
+
+# Environment & Utilities
+python-dotenv==1.0.1
+pydantic==2.8.2
+typing-extensions==4.12.2
+
+# Optional: Performance & Monitoring
+langsmith==0.1.121
