@@ -13,7 +13,10 @@ def run_ingestion(data_path, index_root, index_name):
     # Load Documents
     pdf_loader = DirectoryLoader(data_path, glob="./*.pdf", loader_cls=PyPDFLoader)
     txt_loader = DirectoryLoader(data_path, glob="./*.txt", loader_cls=TextLoader)
-    docs = pdf_loader.load() + txt_loader.load()
+    excel_loader = DirectoryLoader(data_path, glob="./*.xlsx", loader_cls=TextLoader)
+    doc_loader = DirectoryLoader(data_path, glob="./*.docx", loader_cls=TextLoader)
+
+    docs = pdf_loader.load() + txt_loader.load() + excel_loader.load() + doc_loader.load()
     
     if not docs:
         print("No documents found to process.")

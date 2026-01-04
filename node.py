@@ -62,7 +62,7 @@ def generate_node(state: AgentState):
     
     prompt = ChatPromptTemplate.from_template("""
     You are an expert domain assistant. Use the following context to answer the question.
-    Look carefully at the headers and footers of the provided chunks for author names or citations
+    Look carefully at the headers and footers of the provided chunks for relevant information.
     If the context doesn't contain the answer, say you don't have enough information to answer.
     
     Context: {context}
