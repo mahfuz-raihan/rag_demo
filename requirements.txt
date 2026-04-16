@@ -1,20 +1,15 @@
-# Core LLM Orchestration
-langchain==0.3.0
-langchain-openai==0.2.0
-langgraph==0.2.20
-
-# Vector Database & Embeddings
-faiss-cpu==1.8.0
-tiktoken==0.7.0
-
-# Document Processing
-pypdf==4.3.1
-unstructured==0.15.0
-
-# Environment & Utilities
-python-dotenv==1.0.1
-pydantic==2.8.2
-typing-extensions==4.12.2
-
-# Optional: Performance & Monitoring
-langsmith==0.1.121
+chainlit>=2.11.0
+langchain_community>=0.4.1
+langchain_core>=1.2.31
+langchain_experimental>=0.4.1
+langchain_openai>=1.1.14
+langchain_text_splitters>=1.1.2
+langgraph>=1.1.6
+pandas>=3.0.2
+python-dotenv>=1.2.2
+faiss-cpu>=1.7.4
+openpyxl>=3.1.2
+pypdf>=4.0.1
+unstructured>=0.12.0
+python-docx>=1.1.0
+langgraph-sdk>=0.1.10
