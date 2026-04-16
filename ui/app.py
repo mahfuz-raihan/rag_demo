@@ -23,8 +23,7 @@ async def on_chat_start():
     await cl.Message(
         content="👋 **Welcome to your Intelligent Data Assistant!**\n\n"
                 "I can analyze your documents (PDF, Word) and calculate insights from your datasets (Excel, CSV).\n\n"
-                "📎 **To get started, simply attach a file using the paperclip icon next to the chat box and ask me a question!**\n"
-                "*(Or just say 'Hi' to test my connection!)*"
+                "📎 **To get started, simply attach a file using the paperclip icon next to the chat box and ask me a question!**"
     ).send()
 
 @cl.on_message
