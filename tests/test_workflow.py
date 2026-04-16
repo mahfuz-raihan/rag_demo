@@ -33,28 +33,21 @@ def test_supervisor_logic_mock():
     Test if the node properly updates the state dictionary when files are present.
     """
     from agents.supervisor import supervisor_node
-    from unittest.mock import MagicMock, patch
+    from unittest.mock import patch
+    from langchain_core.runnables import RunnableLambda
+    from langchain_core.messages import AIMessage
 
-    # Mocking the get_llm call so we don't spend money during testing
-    with patch('agents.supervisor.get_llm') as mock_llm:
-        
-        # 1. We mock the LLM's response
-        mock_response = MagicMock()
-        
-        # Note: If your supervisor uses structured outputs (Pydantic), 
-        # it accesses object properties. If it uses raw text, it uses .content.
-        # We handle both just to be safe!
-        mock_response.content = "data_analysis"
-        mock_response.route = "data_analysis" 
-        
-        mock_llm.return_value.invoke.return_value = mock_response
-        mock_llm.return_value.with_structured_output.return_value.invoke.return_value = mock_response
+    # FIX: MagicMock breaks LangChain's "|" operator. 
+    # We must use a proper LangChain Runnable object to fake the LLM.
+    fake_llm = RunnableLambda(lambda prompt: AIMessage(content="data_analysis"))
 
-        # 2. FIX: We add "uploaded_files" to trick the supervisor into knowing a file exists
+    # Mocking the get_llm call to return our fake LLM
+    with patch('agents.supervisor.get_llm', return_value=fake_llm):
+        
         initial_state = {
             "question": "Analyze my excel", 
             "file_types": [".xlsx"],
-            "uploaded_files": ["dummy_data.xlsx"] # <--- THE FIX
+            "uploaded_files": ["dummy_data.xlsx"]
         }
         
         result = supervisor_node(initial_state)
