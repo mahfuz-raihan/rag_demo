@@ -1,0 +1,15 @@
+__pycache__/
+.env
+.chainlit/
+.vscode/
+.files/
+.venv/
+*.pyc
+*.log
+index/
+.files/
+index/
+
+pyproject.toml
+.python-version
+uv.lock
