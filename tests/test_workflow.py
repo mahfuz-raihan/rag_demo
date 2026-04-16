@@ -30,19 +30,33 @@ def test_agent_state_initialization():
 
 def test_supervisor_logic_mock():
     """
-    In a real CI, we might mock the LLM. 
-    Here we test if the node properly updates the state dictionary.
+    Test if the node properly updates the state dictionary when files are present.
     """
     from agents.supervisor import supervisor_node
     from unittest.mock import MagicMock, patch
 
     # Mocking the get_llm call so we don't spend money during testing
     with patch('agents.supervisor.get_llm') as mock_llm:
+        
+        # 1. We mock the LLM's response
         mock_response = MagicMock()
+        
+        # Note: If your supervisor uses structured outputs (Pydantic), 
+        # it accesses object properties. If it uses raw text, it uses .content.
+        # We handle both just to be safe!
         mock_response.content = "data_analysis"
+        mock_response.route = "data_analysis" 
+        
         mock_llm.return_value.invoke.return_value = mock_response
+        mock_llm.return_value.with_structured_output.return_value.invoke.return_value = mock_response
 
-        initial_state = {"question": "Analyze my excel", "file_types": [".xlsx"]}
+        # 2. FIX: We add "uploaded_files" to trick the supervisor into knowing a file exists
+        initial_state = {
+            "question": "Analyze my excel", 
+            "file_types": [".xlsx"],
+            "uploaded_files": ["dummy_data.xlsx"] # <--- THE FIX
+        }
+        
         result = supervisor_node(initial_state)
         
         assert result["route"] == "data_analysis"
