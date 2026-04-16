@@ -127,7 +127,8 @@ async def main(message: cl.Message):
     if final_figures:
         elements = []
         for i, fig in enumerate(final_figures):
-            elements.append(cl.PlotlyFigure(name=f"Chart {i+1}", figure=fig, display="inline"))
+            # FIX: Changed cl.PlotlyFigure to cl.Plotly
+            elements.append(cl.Plotly(name=f"Chart {i+1}", figure=fig, display="inline"))
         ui_msg.elements = elements
         
     await ui_msg.update()
