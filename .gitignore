@@ -1,0 +1,14 @@
+*.env
+.env.local
+__pycache__/
+*.log
+.chainlit/
+chainlit.md
+.venv/
+.python-version
+.uv-lock.toml
+uv.lock
+pyproject.toml
+
+.files/*
+.vscode/*
