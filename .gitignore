@@ -2,3 +2,5 @@
 .env.local
 __pycache__/
 *.log
+.chainlit/
+chainlit.md
