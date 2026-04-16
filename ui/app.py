@@ -1,5 +1,8 @@
 import os
 import sys
+import logging
+logging.getLogger("httpx").setLevel(logging.WARNING)
+
 # --- FIX: Add the root directory to Python's path ---
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if root_dir not in sys.path:
