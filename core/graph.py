@@ -4,6 +4,7 @@ from agents.supervisor import supervisor_node
 from agents.text_rag import retrieve_node, generate_node
 from agents.data_analyst import data_analyst_node
 from agents.critic_transformer import reflect_node, transform_query_node
+from agents.general import general_node  # Import the new general agent
 
 # 1. Define the workflow
 workflow = StateGraph(AgentState)
@@ -15,6 +16,7 @@ workflow.add_node("generate", generate_node)
 workflow.add_node("data_analyst", data_analyst_node)
 workflow.add_node("critic", reflect_node)
 workflow.add_node("transform_query", transform_query_node)
+workflow.add_node("general", general_node) # Add general node
 
 # 3. Define the routing logic from the supervisor
 def route_from_supervisor(state: AgentState):
@@ -24,8 +26,8 @@ def route_from_supervisor(state: AgentState):
     elif route == "rag":
         return "retrieve"
     else:
-        # If general/casual conversation, bypass RAG and just end
-        return "end_node"
+        # Route "Hi" or "Hey" to the general conversational agent
+        return "general"
 
 # 4. Define the reflection/retry logic
 def route_from_critic(state: AgentState):
@@ -41,14 +43,14 @@ def route_from_critic(state: AgentState):
 # 5. Build the Graph Connections
 workflow.set_entry_point("supervisor")
 
-# Supervisor routes to either RAG, Data Analyst, or Ends
+# Supervisor routes to either RAG, Data Analyst, or General Chat
 workflow.add_conditional_edges(
     "supervisor",
     route_from_supervisor,
     {
         "retrieve": "retrieve",
-        "data_analyst": "critic", # Route tabular answers to critic too
-        "end_node": END
+        "data_analyst": "critic", 
+        "general": "general"
     }
 )
 
@@ -66,8 +68,8 @@ workflow.add_conditional_edges(
     }
 )
 
-# After rewriting the query, go back to the supervisor to route again
 workflow.add_edge("transform_query", "supervisor")
+workflow.add_edge("general", END) # General chat ends immediately after replying
 
 # Compile the graph
 compiled_graph = workflow.compile()
