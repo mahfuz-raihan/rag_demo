@@ -12,3 +12,4 @@ pyproject.toml
 
 .files/*
 .vscode/*
+.github/*
