@@ -1,11 +1,18 @@
 import os
-import chainlit as cl
+import sys
+# --- FIX: Add the root directory to Python's path ---
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if root_dir not in sys.path:
+    sys.path.append(root_dir)
+# ----------------------------------------------------
 
-# --- UI Configuration & Styling ---
+import chainlit as cl
+from core.graph import compiled_graph
+from core.ingestion import process_attached_files
+
 @cl.on_chat_start
 async def on_chat_start():
-    # 1. Welcome Message
-    # We no longer block the UI asking for files. We just instruct the user.
+    # Initialize isolated session state
     cl.user_session.set("session_id", cl.user_session.get("id"))
     cl.user_session.set("file_paths", [])
     cl.user_session.set("file_types", [])
@@ -13,42 +20,48 @@ async def on_chat_start():
     await cl.Message(
         content="👋 **Welcome to your Intelligent Data Assistant!**\n\n"
                 "I can analyze your documents (PDF, Word) and calculate insights from your datasets (Excel, CSV).\n\n"
-                "📎 **To get started, simply attach a file using the paperclip icon next to the chat box and ask me a question!**"
+                "📎 **To get started, simply attach a file using the paperclip icon next to the chat box and ask me a question!**\n"
+                "*(Or just say 'Hi' to test my connection!)*"
     ).send()
 
 @cl.on_message
 async def main(message: cl.Message):
     """
-    Handles user queries AND dynamically attached files in the chatbox.
+    Handles user queries AND dynamically attached files in the chatbox, 
+    routing them through the LangGraph AI workflow.
     """
-    # 1. Extract session data
     file_paths = cl.user_session.get("file_paths", [])
     file_types = cl.user_session.get("file_types", [])
     session_id = cl.user_session.get("session_id")
 
-    # 2. Check for newly attached files in this message
-    # message.elements contains any files attached via the paperclip icon
+    # 1. Process any files attached via the paperclip
     attached_files = [el for el in message.elements if isinstance(el, cl.File)]
     
     if attached_files:
-        ui_msg = cl.Message(content=f"📥 Processing {len(attached_files)} new attached file(s)... ⏳")
-        await ui_msg.send()
-        
-        for file in attached_files:
-            ext = os.path.splitext(file.name)[1].lower()
-            if ext not in file_types:
-                file_types.append(ext)
-            if file.path not in file_paths:
-                file_paths.append(file.path)
-                
-        # Update session state
-        cl.user_session.set("file_paths", file_paths)
-        cl.user_session.set("file_types", file_types)
-        
-        ui_msg.content = f"✅ Successfully added {len(attached_files)} new file(s) to your session context."
-        await ui_msg.update()
+        # Show a processing step in the UI
+        async with cl.Step(name="System", icon="⚙️") as step:
+            step.output = f"Processing {len(attached_files)} attached file(s)..."
+            
+            # Run ingestion synchronously in the background
+            process_attached_files(attached_files, session_id)
+            
+            for file in attached_files:
+                ext = os.path.splitext(file.name)[1].lower()
+                if ext not in file_types:
+                    file_types.append(ext)
+                if file.path not in file_paths:
+                    file_paths.append(file.path)
+                    
+            cl.user_session.set("file_paths", file_paths)
+            cl.user_session.set("file_types", file_types)
+            step.output = f"Successfully loaded {len(attached_files)} file(s) into memory."
 
-    # 3. Setup state for LangGraph
+    # If the user only uploaded a file without typing a message
+    if not message.content.strip():
+        await cl.Message(content="I've received your files! What would you like to know about them?").send()
+        return
+
+    # 2. Setup state for LangGraph
     initial_state = {
         "question": message.content,
         "session_id": session_id,
@@ -62,26 +75,28 @@ async def main(message: cl.Message):
         "dataframe_summaries": ""
     }
 
-    # If the user only uploaded a file without typing a message, prompt them
-    if not message.content.strip():
-        await cl.Message(content="I've received your files! What would you like to know about them?").send()
-        return
-
-    # 4. UI Feedback for the agentic workflow
-    ui_msg = cl.Message(content="🧠 Analyzing your request...")
+    # 3. Create an empty message to stream the final answer into
+    ui_msg = cl.Message(content="")
     await ui_msg.send()
 
-    # --- TODO for Phase 3: Invoke LangGraph here ---
-    # async for output in compiled_graph.astream(initial_state):
-    #     Update ui_msg based on what node is running
-    # -----------------------------------------------
+    final_answer = "I'm sorry, I couldn't generate an answer."
 
-    # Mock response until the graph is wired up
-    mock_response = (
-        f"*(Graph not yet wired)*\n\n"
-        f"**Your Query:** {message.content}\n"
-        f"**Active Files in Session:** {len(file_paths)} file(s) of types `{file_types}`."
-    )
-    
-    ui_msg.content = mock_response
+    # 4. Execute the LangGraph workflow
+    # We use a Chainlit Step to visually show the user that the AI is "thinking"
+    async with cl.Step(name="Agentic Workflow", icon="🧠") as step:
+        step.output = "Routing your query..."
+        
+        # Invoke the graph
+        try:
+            # We run the graph synchronously wrapped in make_async to prevent blocking the UI
+            result = await cl.make_async(compiled_graph.invoke)(initial_state)
+            final_answer = result.get("generation", "No generation found.")
+            step.output = f"Workflow complete! Route taken: {result.get('route', 'unknown')}"
+        except Exception as e:
+            final_answer = f"An error occurred while processing your request: {str(e)}"
+            step.output = "Workflow failed."
+            step.is_error = True
+
+    # 5. Send the actual LLM response back to the user
+    ui_msg.content = final_answer
     await ui_msg.update()
