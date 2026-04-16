@@ -1,0 +1,40 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ "main", "production" ]
+  pull_request:
+    branches: [ "main", "production" ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-mock flake8
+
+      - name: Run Linting (Catch syntax errors)
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Run Tests (Verify Logic)
+        run: |
+          pytest tests/
+        env:
+          AZURE_OPENAI_API_KEY: "dummy_key"
+          AZURE_OPENAI_ENDPOINT: "https://dummy.openai.azure.com/"
+
+      - name: Verify Docker Build (Crucial for FAISS)
+        run: |
+          docker build -t production-check .
