@@ -8,7 +8,7 @@ An enterprise-grade, **multi-agent Retrieval-Augmented Generation (RAG)** applic
 
 ---
 
-## ✨ Features
+## Features
 
 | Capability | Description |
 |---|---|
@@ -23,7 +23,7 @@ An enterprise-grade, **multi-agent Retrieval-Augmented Generation (RAG)** applic
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 The system is orchestrated as a **stateful directed graph** using LangGraph. Each node is a specialized agent, and edges define the control flow:
 
@@ -78,7 +78,7 @@ The system is orchestrated as a **stateful directed graph** using LangGraph. Eac
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 RAG-APP/
@@ -129,7 +129,7 @@ RAG-APP/
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -145,7 +145,7 @@ RAG-APP/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -209,7 +209,7 @@ The `-w` flag enables hot-reload during development. Open your browser at **http
 
 ---
 
-## 📖 Usage
+## Usage
 
 1. **Upload Files** — Click the 📎 paperclip icon to attach PDFs, Word documents, Excel spreadsheets, or CSV files.
 2. **Ask Questions** — Type your question in natural language (e.g., *"What is the main contribution of this paper?"* or *"What is the average revenue by region?"*).
@@ -227,7 +227,7 @@ The `-w` flag enables hot-reload during development. Open your browser at **http
 
 ---
 
-## 🐳 Docker Deployment
+## Docker Deployment
 
 ### Build the Image
 
@@ -247,7 +247,7 @@ The application will be available at **http://localhost:8000**.
 
 ---
 
-## 🧪 Testing
+## Testing
 
 Run the test suite with pytest:
 
@@ -276,7 +276,7 @@ The project includes a GitHub Actions workflow (`.github/workflows/ci.yml`) that
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 1. **Fork** the repository.
 2. **Create** a feature branch: `git checkout -b feature/my-feature`.
@@ -288,12 +288,12 @@ Please ensure all tests pass and the Docker build succeeds before submitting you
 
 ---
 
-## 📄 License
+## License
 
 This project is provided as-is for educational and enterprise evaluation purposes.
 
 ---
 
-## 📬 Contact
+## Contact
 
-For questions or feedback, please open an issue on [GitHub](https://github.com/mahfuz-raihan/rag_demo/issues).
+For questions or feedback, please open an issue on [GitHub](https://github.com/mahfuz-raihan/agentic-rag-system/issues).
