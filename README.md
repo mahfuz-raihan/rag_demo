@@ -4,7 +4,7 @@ An enterprise-grade, **multi-agent Retrieval-Augmented Generation (RAG)** applic
 
 ![Intelligent Data Assistant Interface](media/rag_agent_interface.png)
 ## Data Analyst Interface
-![Data analyst Interface](media/data_analyst_interface.png)
+![Data analyst Interface](media/data_analyst_agent.png)
 
 ---
 
