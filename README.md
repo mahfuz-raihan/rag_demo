@@ -1,4 +1,4 @@
-# 📊 Intelligent Data Assistant — Agentic RAG System
+# Intelligent Data Assistant | Agentic RAG System
 
 An enterprise-grade, **multi-agent Retrieval-Augmented Generation (RAG)** application built with [LangGraph](https://github.com/langchain-ai/langgraph), [LangChain](https://github.com/langchain-ai/langchain), and [Chainlit](https://github.com/Chainlit/chainlit). Upload documents and datasets, ask questions in natural language, and watch a self-correcting AI workflow route your query to the right specialist agent in real-time.
 
